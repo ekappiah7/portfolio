@@ -58,15 +58,18 @@
         .profile-image {
             width: 150px;
             height: 150px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #34495e, #2c3e50);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
+            border-radius: 50%;       /* circular */
+            overflow: hidden;         /* crops image neatly */
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border: 4px solid rgba(255,255,255,0.2);
+            margin: 0 auto 20px;      /* centers above your name */
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;        /* fills circle without stretching */
+            display: block;
         }
 
         .header-info h1 {
