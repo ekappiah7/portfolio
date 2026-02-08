@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ernest Konadu Appiah - Statistician & Research Scientist</title>
+    <title>Ernest Konadu Appiah - Lecturer, Speaker, Research Scientist & Statistician</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -14,15 +15,19 @@
         }
 
         :root {
-            --primary-blue: #2563eb;
-            --secondary-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --accent-teal: #14b8a6;
+            --accent-orange: #f59e0b;
             --accent-pink: #ec4899;
-            --accent-orange: #f97316;
             --accent-green: #10b981;
+            --accent-blue: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-indigo: #6366f1;
             --dark: #0f172a;
+            --dark-blue: #1e293b;
             --gray: #64748b;
-            --light-gray: #f1f5f9;
+            --light-gray: #f8fafc;
             --white: #ffffff;
         }
 
@@ -30,7 +35,8 @@
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: var(--dark);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
             overflow-x: hidden;
         }
 
@@ -66,7 +72,25 @@
             75% { transform: translateY(-150px) translateX(-100px) scale(1.1); opacity: 0.5; }
         }
 
-        /* Header with Gradient Animation */
+        /* Scroll Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6, #10b981, #f59e0b);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Header */
         header {
             position: relative;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
@@ -125,8 +149,8 @@
         }
 
         @keyframes profilePulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 10px rgba(255,255,255,0.1), 0 0 80px rgba(139, 92, 246, 0.5); }
-            50% { transform: scale(1.05); box-shadow: 0 25px 70px rgba(0,0,0,0.5), 0 0 0 15px rgba(255,255,255,0.2), 0 0 100px rgba(236, 72, 153, 0.6); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .profile-image::before {
@@ -175,149 +199,155 @@
             50% { filter: drop-shadow(0 0 40px rgba(165, 180, 252, 0.8)); }
         }
 
-        .header-subtitle {
-            font-size: 1.4rem;
-            opacity: 0.95;
+        .header-info .titles {
+            font-size: 1.3rem;
             margin-bottom: 1.5rem;
-            font-weight: 300;
-            letter-spacing: 0.5px;
+            opacity: 0.95;
+            font-weight: 500;
+            line-height: 1.8;
         }
 
-        .contact-links {
+        .title-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            margin: 0.3rem 0.3rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .title-badge:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .header-contact {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            margin-top: 1.5rem;
         }
 
-        .contact-link {
-            color: white;
-            text-decoration: none;
+        .contact-item {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            background: rgba(255,255,255,0.15);
-            padding: 0.7rem 1.3rem;
-            border-radius: 50px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
+            gap: 0.7rem;
+            padding: 0.7rem 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            color: white;
+            font-size: 0.95rem;
         }
 
-        .contact-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .contact-link:hover::before {
-            left: 100%;
-        }
-
-        .contact-link:hover {
-            background: rgba(255,255,255,0.25);
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border-color: rgba(255,255,255,0.4);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
-        .contact-link i {
-            font-size: 1.1rem;
+        .contact-item i {
+            font-size: 1.2rem;
         }
 
-        .contact-link.whatsapp:hover {
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            border-color: #25D366;
-        }
-
-        .contact-link.linkedin:hover {
-            background: linear-gradient(135deg, #0077b5, #00a0dc);
-            border-color: #0077b5;
-        }
-
-        /* Scroll Progress Bar */
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple), var(--primary-blue), var(--accent-green));
-            z-index: 1000;
-            transition: width 0.2s;
-        }
-
-        /* Navigation with Glass Effect */
+        /* Navigation */
         nav {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
-            padding: 1rem 0;
             position: sticky;
             top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
             z-index: 100;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         .nav-content {
             display: flex;
             justify-content: center;
             gap: 0.5rem;
+            padding: 1rem 0;
             flex-wrap: wrap;
         }
 
         .nav-link {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 600;
             padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
             position: relative;
-            overflow: hidden;
         }
 
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: -1;
-        }
-
-        .nav-link:hover::before,
-        .nav-link.active::before {
-            opacity: 1;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
+        .nav-link:hover {
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(37, 99, 235, 0.3);
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Main Content Area */
+        .nav-link.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Main Content */
         main {
-            background: var(--light-gray);
-            padding: 4rem 0;
             position: relative;
             z-index: 1;
         }
 
+        .content-wrapper {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            margin: 3rem auto;
+            border-radius: 30px;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
         .section {
-            margin-bottom: 5rem;
+            padding: 4rem 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .section.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Vibrant alternating section backgrounds */
+        .section:nth-child(1) {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .section:nth-child(2) {
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+        }
+
+        .section:nth-child(3) {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        }
+
+        .section:nth-child(4) {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        }
+
+        .section:nth-child(5) {
+            background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+        }
+
+        .section:nth-child(6) {
+            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+        }
+
+        .section:nth-child(7) {
+            background: linear-gradient(135deg, #e9d5ff 0%, #d8b4fe 100%);
         }
 
         .section-title {
@@ -326,170 +356,389 @@
             font-weight: 800;
             margin-bottom: 3rem;
             text-align: center;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-purple) 100%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             position: relative;
+            padding-bottom: 1rem;
         }
 
         .section-title::after {
             content: '';
-            display: block;
-            width: 80px;
-            height: 5px;
-            background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple), var(--primary-blue));
-            margin: 1.5rem auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            border-radius: 2px;
         }
 
-        /* Colorful Profile Cards */
-        .profiles-grid {
+        /* Statistics Dashboard */
+        .stats-dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
         }
 
-        .profile-card {
+        .stat-card {
             background: white;
+            padding: 2rem;
             border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-top: 5px solid var(--stat-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--stat-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .stat-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .stat-card:nth-child(1) { 
+            --stat-color: #667eea; 
+            --stat-gradient: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        .stat-card:nth-child(2) { 
+            --stat-color: #f093fb; 
+            --stat-gradient: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+        .stat-card:nth-child(3) { 
+            --stat-color: #4facfe; 
+            --stat-gradient: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+        .stat-card:nth-child(4) { 
+            --stat-color: #43e97b; 
+            --stat-gradient: linear-gradient(135deg, #43e97b, #38f9d7);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--stat-color);
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 3rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(236, 72, 153, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(67, 233, 123, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .cta-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+            text-align: left;
+        }
+
+        .expertise-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .expertise-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .expertise-item i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .expertise-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .expertise-item p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .cta-button {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .cta-button-primary {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .cta-button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-button-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-button-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* Professional Specializations */
+        .specializations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .specialization-card {
+            background: white;
             padding: 2.5rem;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             border: 2px solid transparent;
         }
 
-        .profile-card::before {
+        .specialization-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 6px;
-            background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple), var(--primary-blue));
-            transition: height 0.4s;
+            background: var(--card-gradient);
+            transition: height 0.3s ease;
         }
 
-        .profile-card:hover::before {
+        .specialization-card:hover::before {
             height: 100%;
-            opacity: 0.05;
+            opacity: 0.15;
         }
 
-        .profile-card:hover {
+        .specialization-card:nth-child(1) { 
+            --card-gradient: linear-gradient(135deg, #667eea, #764ba2); 
+        }
+        .specialization-card:nth-child(2) { 
+            --card-gradient: linear-gradient(135deg, #f093fb, #f5576c); 
+        }
+        .specialization-card:nth-child(3) { 
+            --card-gradient: linear-gradient(135deg, #4facfe, #00f2fe); 
+        }
+        .specialization-card:nth-child(4) { 
+            --card-gradient: linear-gradient(135deg, #43e97b, #38f9d7); 
+        }
+
+        .specialization-card:hover {
             transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-            border-color: var(--accent-purple);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            border-color: rgba(102, 126, 234, 0.3);
         }
 
-        .profile-card:nth-child(1) .profile-icon {
-            background: linear-gradient(135deg, #ec4899, #f97316);
-        }
-
-        .profile-card:nth-child(2) .profile-icon {
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-        }
-
-        .profile-card:nth-child(3) .profile-icon {
-            background: linear-gradient(135deg, #10b981, #06b6d4);
-        }
-
-        .profile-icon {
-            width: 80px;
-            height: 80px;
+        .specialization-icon {
+            width: 90px;
+            height: 90px;
+            background: var(--card-gradient);
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            color: white;
             margin-bottom: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.4s;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
         }
 
-        .profile-card:hover .profile-icon {
-            transform: rotateY(360deg);
+        .specialization-card:hover .specialization-icon {
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.3);
         }
 
-        .profile-card h3 {
-            font-size: 1.7rem;
+        .specialization-icon i {
+            font-size: 2.8rem;
+            color: white;
+        }
+
+        .specialization-title {
+            font-size: 1.6rem;
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--dark);
         }
 
-        .profile-card p {
+        .specialization-description {
             color: var(--gray);
-            line-height: 1.8;
+            line-height: 1.7;
             margin-bottom: 1.5rem;
         }
 
-        .profile-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
+        .specialization-highlights {
+            list-style: none;
+            padding: 0;
         }
 
-        .skill-tag {
-            background: linear-gradient(135deg, #e0e7ff, #ddd6fe);
-            color: var(--accent-purple);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-        }
-
-        .skill-tag:hover {
-            background: linear-gradient(135deg, var(--accent-purple), var(--primary-blue));
-            color: white;
-            transform: scale(1.05);
-            border-color: var(--accent-purple);
-        }
-
-        /* General Profile with Gradient */
-        .general-profile {
-            background: linear-gradient(135deg, white 0%, #fef3f2 100%);
-            border-radius: 25px;
-            padding: 3rem;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-            margin-bottom: 3rem;
+        .specialization-highlights li {
+            padding: 0.6rem 0;
+            padding-left: 1.8rem;
             position: relative;
-            overflow: hidden;
-            border: 2px solid #fecaca;
+            color: var(--dark-blue);
+            font-size: 0.95rem;
         }
 
-        .general-profile::before {
-            content: '';
+        .specialization-highlights li::before {
+            content: '✓';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.1rem;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        /* Charts Container */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
         }
 
-        .general-profile p {
-            position: relative;
-            z-index: 1;
-            color: var(--dark);
-            line-height: 2;
+        .chart-wrapper {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .chart-wrapper:nth-child(1) {
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .chart-wrapper:nth-child(2) {
+            border-color: rgba(240, 147, 251, 0.3);
+        }
+
+        .chart-wrapper:hover {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+        }
+
+        .chart-title {
+            font-size: 1.4rem;
+            font-weight: 700;
             margin-bottom: 1.5rem;
-            font-size: 1.05rem;
+            color: var(--dark);
+            text-align: center;
         }
 
-        /* Colorful Timeline */
+        canvas {
+            max-height: 350px !important;
+            height: 350px !important;
+        }
+
+        /* Timeline */
         .timeline {
             position: relative;
             padding-left: 3rem;
@@ -502,105 +751,82 @@
             top: 0;
             bottom: 0;
             width: 4px;
-            background: linear-gradient(180deg, var(--accent-pink), var(--accent-purple), var(--primary-blue), var(--accent-green));
-            border-radius: 10px;
+            background: linear-gradient(180deg, #667eea, #764ba2, #f093fb, #43e97b);
+            border-radius: 2px;
         }
 
         .timeline-item {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            margin-left: 2rem;
-            transition: all 0.4s;
-            border-left: 4px solid transparent;
+            padding-bottom: 3rem;
+            padding-left: 2rem;
         }
-
-        .timeline-item:nth-child(1) { border-left-color: var(--accent-pink); }
-        .timeline-item:nth-child(2) { border-left-color: var(--accent-purple); }
-        .timeline-item:nth-child(3) { border-left-color: var(--primary-blue); }
-        .timeline-item:nth-child(4) { border-left-color: var(--accent-green); }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -3rem;
-            top: 2rem;
-            width: 16px;
-            height: 16px;
+            left: -3.8rem;
+            top: 0;
+            width: 22px;
+            height: 22px;
             background: white;
+            border: 5px solid #667eea;
             border-radius: 50%;
-            border: 4px solid;
-            box-shadow: 0 0 0 4px white, 0 0 20px;
+            box-shadow: 0 0 0 6px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
         }
 
-        .timeline-item:nth-child(1)::before {
-            border-color: var(--accent-pink);
-            box-shadow: 0 0 0 4px white, 0 0 20px var(--accent-pink);
-        }
-
-        .timeline-item:nth-child(2)::before {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 0 4px white, 0 0 20px var(--accent-purple);
-        }
-
-        .timeline-item:nth-child(3)::before {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 4px white, 0 0 20px var(--primary-blue);
-        }
-
-        .timeline-item:nth-child(4)::before {
-            border-color: var(--accent-green);
-            box-shadow: 0 0 0 4px white, 0 0 20px var(--accent-green);
-        }
-
-        .timeline-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        .timeline-item:hover::before {
+            transform: scale(1.3);
+            box-shadow: 0 0 0 8px rgba(102, 126, 234, 0.3);
         }
 
         .timeline-date {
             display: inline-block;
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
+            padding: 0.5rem 1.2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            font-weight: 700;
-            font-size: 0.9rem;
-            padding: 0.4rem 1rem;
             border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
             margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
         .timeline-title {
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--dark);
-            font-size: 1.3rem;
-            margin: 0.5rem 0;
+            margin-bottom: 0.5rem;
         }
 
         .timeline-subtitle {
             color: var(--gray);
-            font-style: italic;
+            font-weight: 500;
             margin-bottom: 1rem;
-        }
-
-        .timeline-description {
-            color: var(--gray);
-            line-height: 1.8;
+            font-style: italic;
         }
 
         .timeline-description ul {
-            margin-left: 1.5rem;
-            margin-top: 0.8rem;
+            list-style: none;
+            padding-left: 0;
         }
 
         .timeline-description li {
-            margin-bottom: 0.5rem;
-            padding-left: 0.5rem;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--dark-blue);
         }
 
-        /* Colorful Skills Grid */
+        .timeline-description li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Skills Grid */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -609,167 +835,144 @@
 
         .skill-category {
             background: white;
-            border-radius: 20px;
             padding: 2.5rem;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
-            transition: all 0.4s;
-            position: relative;
-            overflow: hidden;
-            border-top: 5px solid;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--category-color);
         }
 
-        .skill-category:nth-child(1) {
-            border-top-color: var(--accent-pink);
-            background: linear-gradient(135deg, white 0%, #fef2f2 100%);
-        }
-
-        .skill-category:nth-child(2) {
-            border-top-color: var(--accent-purple);
-            background: linear-gradient(135deg, white 0%, #faf5ff 100%);
-        }
-
-        .skill-category:nth-child(3) {
-            border-top-color: var(--primary-blue);
-            background: linear-gradient(135deg, white 0%, #eff6ff 100%);
-        }
-
-        .skill-category:nth-child(4) {
-            border-top-color: var(--accent-green);
-            background: linear-gradient(135deg, white 0%, #f0fdf4 100%);
-        }
+        .skill-category:nth-child(1) { --category-color: #667eea; }
+        .skill-category:nth-child(2) { --category-color: #f093fb; }
+        .skill-category:nth-child(3) { --category-color: #4facfe; }
+        .skill-category:nth-child(4) { --category-color: #43e97b; }
 
         .skill-category:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
 
         .skill-category h4 {
-            color: var(--dark);
-            font-weight: 700;
+            font-size: 1.3rem;
             margin-bottom: 1.5rem;
+            color: var(--dark);
             display: flex;
             align-items: center;
-            gap: 0.7rem;
-            font-size: 1.2rem;
+            gap: 0.8rem;
         }
 
-        .skill-category:nth-child(1) h4 i { color: var(--accent-pink); }
-        .skill-category:nth-child(2) h4 i { color: var(--accent-purple); }
-        .skill-category:nth-child(3) h4 i { color: var(--primary-blue); }
-        .skill-category:nth-child(4) h4 i { color: var(--accent-green); }
-
-        .skill-category i {
+        .skill-category h4 i {
+            color: var(--category-color);
             font-size: 1.5rem;
         }
 
         .skills-list {
             list-style: none;
+            padding: 0;
         }
 
         .skills-list li {
             padding: 0.8rem 0;
-            color: var(--gray);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.3s;
-            padding-left: 1.5rem;
+            padding-left: 1.8rem;
             position: relative;
-        }
-
-        .skills-list li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .skill-category:nth-child(1) .skills-list li::before { color: var(--accent-pink); }
-        .skill-category:nth-child(2) .skills-list li::before { color: var(--accent-purple); }
-        .skill-category:nth-child(3) .skills-list li::before { color: var(--primary-blue); }
-        .skill-category:nth-child(4) .skills-list li::before { color: var(--accent-green); }
-
-        .skills-list li:hover {
-            padding-left: 2rem;
-            color: var(--dark);
-            font-weight: 600;
+            color: var(--dark-blue);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
 
         .skills-list li:last-child {
             border-bottom: none;
         }
 
+        .skills-list li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: var(--category-color);
+            font-size: 1.2rem;
+        }
+
+        .skills-list li:hover {
+            padding-left: 2.2rem;
+            color: #667eea;
+        }
+
         /* Publications */
         .publication-item {
             background: white;
-            border-radius: 20px;
             padding: 2rem;
+            border-radius: 15px;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            border-left: 6px solid;
-            transition: all 0.4s;
-        }
-
-        .publication-item:nth-child(odd) {
-            border-left-color: var(--accent-purple);
-        }
-
-        .publication-item:nth-child(even) {
-            border-left-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            border-left: 6px solid #667eea;
+            transition: all 0.3s ease;
         }
 
         .publication-item:hover {
             transform: translateX(10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+            border-left-width: 10px;
         }
 
         .publication-title {
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--dark);
             margin-bottom: 0.8rem;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .publication-authors {
             color: var(--gray);
             font-style: italic;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
         }
 
         .publication-journal {
-            color: var(--primary-blue);
-            font-weight: 600;
+            color: var(--dark-blue);
+            font-size: 0.95rem;
         }
 
         .publication-journal a {
-            color: var(--primary-blue);
+            color: #667eea;
             text-decoration: none;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .publication-journal a:hover {
-            color: var(--accent-purple);
+            color: #764ba2;
             text-decoration: underline;
         }
 
-        /* Subsection Titles */
-        h3.subsection-title {
-            color: var(--dark);
-            margin-bottom: 2rem;
-            margin-top: 3rem;
+        .subsection-title {
             font-size: 1.8rem;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid rgba(102, 126, 234, 0.3);
         }
 
-        h3.subsection-title::before {
-            content: '';
-            width: 50px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-purple), var(--primary-blue));
-            border-radius: 10px;
+        /* About Section Styling */
+        .about-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            margin-top: 3rem;
+            line-height: 1.9;
+            color: var(--dark-blue);
+            border: 3px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p:last-child {
+            margin-bottom: 0;
         }
 
         /* Responsive Design */
@@ -777,75 +980,92 @@
             .header-content {
                 grid-template-columns: 1fr;
                 text-align: center;
+                gap: 2rem;
             }
 
-            .profile-image {
-                width: 140px;
-                height: 140px;
-                margin: 0 auto;
+            .profile-image-wrapper {
+                display: flex;
+                justify-content: center;
             }
 
             .header-info h1 {
                 font-size: 2.5rem;
             }
 
-            .header-subtitle {
-                font-size: 1.2rem;
+            .header-info .titles {
+                font-size: 1.1rem;
             }
 
-            .contact-links {
+            .header-contact {
                 justify-content: center;
             }
 
-            .nav-content {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .profiles-grid {
-                grid-template-columns: 1fr;
+            .section {
+                padding: 3rem 1.5rem;
             }
 
             .section-title {
                 font-size: 2rem;
             }
 
+            .specializations-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+
             .timeline {
                 padding-left: 2rem;
             }
 
-            .timeline-item {
-                margin-left: 1rem;
+            .stats-dashboard {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .skills-grid {
+            .cta-title {
+                font-size: 2rem;
+            }
+
+            .cta-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .expertise-grid {
                 grid-template-columns: 1fr;
             }
-        }
 
-        /* Animations */
-        .fade-in {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
+            .cta-buttons {
+                flex-direction: column;
+                align-items: stretch;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .title-badge {
+                font-size: 0.9rem;
+                padding: 0.3rem 0.8rem;
+            }
+
+            .contact-item {
+                font-size: 0.85rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .stats-dashboard {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Background Particles -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
     <div class="particles" id="particles"></div>
-    
-    <!-- Scroll Progress Bar -->
-    <div class="progress-bar" id="progressBar"></div>
 
     <header>
         <div class="header-overlay"></div>
@@ -853,36 +1073,37 @@
             <div class="header-content">
                 <div class="profile-image-wrapper">
                     <div class="profile-image">
-                        <img src="mypicture.jpg" alt="Ernest Konadu Appiah">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect fill='%23667eea' width='180' height='180'/%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='white' text-anchor='middle' dy='.3em' font-family='Arial'%3EEKA%3C/text%3E%3C/svg%3E" alt="Ernest Konadu Appiah">
                     </div>
                 </div>
                 <div class="header-info">
                     <h1>Ernest Konadu Appiah</h1>
-                    <div class="header-subtitle">Statistician, Research Scientist & Academic Tutor</div>
-                    <div class="contact-links">
-                        <a href="mailto:ekappia7@gmail.com" class="contact-link">
+                    <div class="titles">
+                        <span class="title-badge">Lecturer</span>
+                        <span class="title-badge">Speaker</span>
+                        <span class="title-badge">Research Scientist</span>
+                        <span class="title-badge">Statistician</span>
+                    </div>
+                    <div class="header-contact">
+                        <a href="mailto:ernest.appiah@ruma.hospital" class="contact-item">
                             <i class="fas fa-envelope"></i>
-                            Personal Email
+                            <span>ernest.appiah@ruma.hospital</span>
                         </a>
-                        <a href="mailto:ernest.appiah@ruma.hospital" class="contact-link">
-                            <i class="fas fa-briefcase"></i>
-                            Work Email
+                        <a href="mailto:ekappia7@gmail.com" class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>ekappia7@gmail.com</span>
                         </a>
-                        <a href="tel:+233277630506" class="contact-link">
+                        <a href="tel:+233547731077" class="contact-item">
                             <i class="fas fa-phone"></i>
-                            +233547731077
+                            <span>+233 547 731 077</span>
                         </a>
-                        <a href="https://wa.me/233277630506" class="contact-link whatsapp" target="_blank">
+                        <a href="https://wa.me/233277630506" class="contact-item" target="_blank">
                             <i class="fab fa-whatsapp"></i>
-                            WhatsApp
+                            <span>+233 277 630 506</span>
                         </a>
-                        <a href="https://linkedin.com/in/ekappiah7" class="contact-link linkedin" target="_blank">
+                        <a href="https://linkedin.com/in/ekappiah7" class="contact-item" target="_blank">
                             <i class="fab fa-linkedin"></i>
-                            LinkedIn
-                        </a>
-                        <a href="https://sites.google.com/view/ekappiah7" class="contact-link" target="_blank">
-                            <i class="fas fa-globe"></i>
-                            Website
+                            <span>LinkedIn</span>
                         </a>
                     </div>
                 </div>
@@ -893,129 +1114,155 @@
     <nav>
         <div class="container">
             <div class="nav-content">
-                <a href="#profile" class="nav-link active">Profile</a>
+                <a href="#about" class="nav-link active">About</a>
                 <a href="#specializations" class="nav-link">Specializations</a>
-                <a href="#education" class="nav-link">Education</a>
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#publications" class="nav-link">Publications</a>
+                <a href="#contact" class="nav-link">Get in Touch</a>
             </div>
         </div>
     </nav>
 
     <main>
-        <div class="container">
-            <section id="profile" class="section">
+        <div class="content-wrapper">
+            <section id="about" class="section">
                 <h2 class="section-title">Professional Profile</h2>
-                <div class="general-profile fade-in">
+                <div class="stats-dashboard">
+                    <div class="stat-card">
+                        <div class="stat-number">8+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Published Papers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Students Mentored</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Research Projects</div>
+                    </div>
+                </div>
+
+                <div class="about-content">
                     <p>As an accomplished statistician and educator with advanced expertise in quantitative methods, spatial statistics, and research methodology, I am passionate about translating complex statistical concepts into accessible learning experiences for students. My academic background combines rigorous training in mathematical statistics with extensive practical experience in research design and implementation.</p>
                     
                     <p>With proven teaching experience in biostatistics and research methods for health science students, I excel at fostering critical thinking and statistical literacy among diverse learners. My 6+ years of professional experience spans statistical consulting, data analytics, and research methodology across healthcare and public health sectors. I have successfully reduced data errors by 95% through workflow automation and have expertise in translating complex statistical insights into actionable intelligence.</p>
                     
                     <p>My commitment to academic excellence and student development, coupled with my research expertise in categorical data analysis, spatial statistics, and infectious disease modelling, positions me to make valuable contributions to academic programs in statistics, quantitative studies, and related fields across higher education institutions.</p>
+                    
+                    <p>As <strong>General Secretary of the Ghana Statistical Association, Ashanti Regional Chapter</strong>, I actively contribute to advancing statistical practice and professional development in Ghana.</p>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">Research Focus Areas</h3>
+                        <canvas id="researchChart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">Skills Distribution</h3>
+                        <canvas id="skillsChart"></canvas>
+                    </div>
                 </div>
             </section>
 
             <section id="specializations" class="section">
                 <h2 class="section-title">Professional Specializations</h2>
-                <div class="profiles-grid">
-                    <div class="profile-card fade-in">
-                        <div class="profile-icon">
+                <div class="specializations-grid">
+                    <div class="specialization-card">
+                        <div class="specialization-icon">
                             <i class="fas fa-chalkboard-teacher"></i>
                         </div>
-                        <h3>Academic Educator</h3>
-                        <p>Experienced lecturer and tutor specializing in research methods, biostatistics, and quantitative studies. Dedicated to fostering statistical literacy and critical thinking among health science students through innovative teaching methodologies and practical applications.</p>
-                        <div class="profile-skills">
-                            <span class="skill-tag">Research Methods</span>
-                            <span class="skill-tag">Biostatistics</span>
-                            <span class="skill-tag">Statistics Tutoring</span>
-                            <span class="skill-tag">Curriculum Development</span>
-                            <span class="skill-tag">Student Mentorship</span>
-                        </div>
+                        <h3 class="specialization-title">Academic Educator</h3>
+                        <p class="specialization-description">
+                            Experienced lecturer and tutor specializing in research methods, biostatistics, and quantitative studies. Dedicated to fostering statistical literacy and critical thinking among health science students through innovative teaching methodologies and practical applications.
+                        </p>
+                        <ul class="specialization-highlights">
+                            <li>Research Methods instruction</li>
+                            <li>Biostatistics for health sciences</li>
+                            <li>Statistical software training (R, Stata, SPSS)</li>
+                            <li>Curriculum development and lesson planning</li>
+                            <li>Student mentorship and academic support</li>
+                        </ul>
                     </div>
 
-                    <div class="profile-card fade-in" style="animation-delay: 0.2s;">
-                        <div class="profile-icon">
-                            <i class="fas fa-microscope"></i>
+                    <div class="specialization-card">
+                        <div class="specialization-icon">
+                            <i class="fas fa-microphone"></i>
                         </div>
-                        <h3>Research Scientist</h3>
-                        <p>Advanced researcher with expertise in spatial statistics, infectious disease modelling, and health analytics. Proven track record in designing comprehensive research methodologies and conducting statistical analyses for medical research publications.</p>
-                        <div class="profile-skills">
-                            <span class="skill-tag">Spatial Statistics</span>
-                            <span class="skill-tag">Disease Modelling</span>
-                            <span class="skill-tag">Health Analytics</span>
-                            <span class="skill-tag">Clinical Research</span>
-                            <span class="skill-tag">Epidemiology</span>
-                        </div>
+                        <h3 class="specialization-title">Speaker</h3>
+                        <p class="specialization-description">
+                            Engaging speaker delivering insights on statistical methods, research innovations, and data-driven decision-making to diverse audiences across academic and professional settings.
+                        </p>
+                        <ul class="specialization-highlights">
+                            <li>Conference presentations and keynote addresses</li>
+                            <li>Workshop facilitation and training sessions</li>
+                            <li>Statistical literacy and data interpretation talks</li>
+                            <li>Research methodology seminars</li>
+                            <li>Public health and policy communication</li>
+                        </ul>
                     </div>
 
-                    <div class="profile-card fade-in" style="animation-delay: 0.4s;">
-                        <div class="profile-icon">
+                    <div class="specialization-card">
+                        <div class="specialization-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3 class="specialization-title">Research Scientist</h3>
+                        <p class="specialization-description">
+                            Advanced researcher with expertise in spatial statistics, infectious disease modelling, fertility research (ART/IVF/ICSI), and health analytics. Proven track record in designing comprehensive research methodologies and conducting statistical analyses for medical research publications.
+                        </p>
+                        <ul class="specialization-highlights">
+                            <li>Spatial statistics and disease modelling</li>
+                            <li>Fertility research (IVF/ICSI data analysis)</li>
+                            <li>Health analytics and clinical research</li>
+                            <li>Malaria and infectious disease research</li>
+                            <li>Epidemiology and public health studies</li>
+                        </ul>
+                    </div>
+
+                    <div class="specialization-card">
+                        <div class="specialization-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
-                        <h3>Statistical Consultant</h3>
-                        <p>Results-driven consultant providing expert statistical services to healthcare organizations and research institutions. Specializes in developing predictive models, implementing data-driven solutions, and translating complex statistical insights into actionable business intelligence.</p>
-                        <div class="profile-skills">
-                            <span class="skill-tag">Statistical Consulting</span>
-                            <span class="skill-tag">Predictive Modeling</span>
-                            <span class="skill-tag">Data Analytics</span>
-                            <span class="skill-tag">Business Intelligence</span>
-                            <span class="skill-tag">Machine Learning</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="education" class="section">
-                <h2 class="section-title">Education</h2>
-                <div class="timeline fade-in">
-                    <div class="timeline-item">
-                        <div class="timeline-date">2021 – 2023</div>
-                        <div class="timeline-title">MPhil Mathematical Statistics</div>
-                        <div class="timeline-subtitle">Kwame Nkrumah University of Science and Technology, Kumasi, Ghana</div>
-                        <div class="timeline-description">
-                            <strong>Thesis:</strong> A comparison of spatial and non-spatial modelling for identifying risk factors for malaria amongst under-5 children in Ghana
-                            <br><strong>Advisor:</strong> Eric Nimako Aidoo (PhD)
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">2016 – 2018</div>
-                        <div class="timeline-title">BSc Economics and Statistics</div>
-                        <div class="timeline-subtitle">Garden City University College, Kumasi, Ghana</div>
-                        <div class="timeline-description">
-                            <strong>Project Work:</strong> A bivariate probit analysis of child passenger's sitting behaviour and restraint use in motor vehicle
-                            <br><strong>Advisor:</strong> Eric Nimako Aidoo (PhD)
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">2009 – 2012</div>
-                        <div class="timeline-title">Higher National Diploma in Statistics</div>
-                        <div class="timeline-subtitle">Kumasi Technical University (formerly Kumasi Polytechnic), Ghana</div>
+                        <h3 class="specialization-title">Statistical Consultant</h3>
+                        <p class="specialization-description">
+                            Providing strategic statistical consulting services to healthcare organizations and research institutions. Expertise in developing and implementing predictive models, creating technical presentations, and mentoring researchers.
+                        </p>
+                        <ul class="specialization-highlights">
+                            <li>Experimental design and sampling strategies</li>
+                            <li>Advanced statistical analysis and modeling</li>
+                            <li>Data visualization and interpretation</li>
+                            <li>Research proposal development</li>
+                            <li>Statistical software training and consulting</li>
+                        </ul>
                     </div>
                 </div>
             </section>
 
             <section id="experience" class="section">
                 <h2 class="section-title">Professional Experience</h2>
-               
-                <div class="timeline fade-in">
-                     <div class="timeline-item">
-    <div class="timeline-date">November 2025 – Present</div>
-    <div class="timeline-title">Part-time Lecturer</div>
-    <div class="timeline-subtitle">Kumasi Technical University, Kumasi, Ghana</div>
-    <div class="timeline-description">
-        <ul>
-            <li>Teaching Statistical Methods to undergraduate students</li>
-            <li>Delivering lectures on core statistical concepts and applied data analysis</li>
-            <li>Guiding students in quantitative reasoning and interpretation of statistical results</li>
-            <li>Supporting students through tutorials, assessments, and academic mentoring</li>
-        </ul>
-    </div>
-</div>
+                <div class="timeline">
                     <div class="timeline-item">
-                        <div class="timeline-date">May 2025 – Present</div>
+                        <div class="timeline-date">November 2025 – Present</div>
                         <div class="timeline-title">Part-time Lecturer</div>
-                        <div class="timeline-subtitle">Royal Ann College of Health, Abuakwa-Manhyia, Kumasi, Ghana</div>
+                        <div class="timeline-subtitle">Kumasi Technical University (KsTU), Kumasi, Ghana</div>
+                        <div class="timeline-description">
+                            <ul>
+                                <li>Teaching Statistical Methods to undergraduate students</li>
+                                <li>Delivering lectures on core statistical concepts and applied data analysis</li>
+                                <li>Guiding students in quantitative reasoning and interpretation of statistical results</li>
+                                <li>Supporting students through tutorials, assessments, and academic mentoring</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">June 2025 – Present</div>
+                        <div class="timeline-title">Part-time Lecturer</div>
+                        <div class="timeline-subtitle">Royal Ann College of Health (RACOH), Abuakwa-Manhyia, Kumasi, Ghana</div>
                         <div class="timeline-description">
                             <ul>
                                 <li>Teaching Research Methods and Biostatistics for third-year Medical Laboratory Sciences students</li>
@@ -1026,20 +1273,25 @@
                             </ul>
                         </div>
                     </div>
+
                     <div class="timeline-item">
                         <div class="timeline-date">2017 – Present</div>
-                        <div class="timeline-title">Research and Data Personnel</div>
-                        <div class="timeline-subtitle">Ruma Fertility Hospital, Kumasi, Ghana</div>
+                        <div class="timeline-title">Research Officer</div>
+                        <div class="timeline-subtitle">Ruma Fertility and Specialist Hospital, Kumasi, Ghana</div>
                         <div class="timeline-description">
                             <ul>
+                                <li>Oversee all data analysis and presentations for IVF/ICSI fertility treatments and research</li>
+                                <li>Manage all research activities including data analysis, methodology, and literature reviews</li>
+                                <li>Prepare monthly, quarterly, and yearly reports on fertility outcomes and treatment success rates</li>
                                 <li>Spearheaded development of automated data cleaning workflows, achieving 95% reduction in errors</li>
-                                <li>Designed comprehensive data collection systems and research methodologies</li>
-                                <li>Led cross-functional teams in executing research projects and data management initiatives</li>
-                                <li>Developed standardized reporting templates and dashboards for executive decision-making</li>
-                                <li>Conducted statistical analyses for medical research publications</li>
+                                <li>Design comprehensive data collection systems and research methodologies for ART procedures</li>
+                                <li>Lead cross-functional teams in executing research projects and data management initiatives</li>
+                                <li>Develop standardized reporting templates and dashboards for executive decision-making</li>
+                                <li>Conduct statistical analyses for medical research publications in reproductive health</li>
                             </ul>
                         </div>
                     </div>
+
                     <div class="timeline-item">
                         <div class="timeline-date">2018 – Present</div>
                         <div class="timeline-title">Statistical Consultant (Freelance)</div>
@@ -1053,6 +1305,7 @@
                             </ul>
                         </div>
                     </div>
+
                     <div class="timeline-item">
                         <div class="timeline-date">2014 – 2016</div>
                         <div class="timeline-title">Field Data Enumerator</div>
@@ -1070,7 +1323,7 @@
 
             <section id="skills" class="section">
                 <h2 class="section-title">Core Competencies</h2>
-                <div class="skills-grid fade-in">
+                <div class="skills-grid">
                     <div class="skill-category">
                         <h4><i class="fas fa-graduation-cap"></i> Teaching & Pedagogical Skills</h4>
                         <ul class="skills-list">
@@ -1091,7 +1344,7 @@
                             <li>Research Design & Experimental Planning</li>
                             <li>Categorical Data Analysis</li>
                             <li>Infectious Disease Modelling</li>
-                            <li>Econometrics & Climate Statistical Modelling</li>
+                            <li>Fertility & ART Data Analysis (IVF/ICSI)</li>
                             <li>Machine Learning & Predictive Modeling</li>
                             <li>Geospatial Analysis & Mapping</li>
                         </ul>
@@ -1126,7 +1379,7 @@
 
             <section id="publications" class="section">
                 <h2 class="section-title">Publications & Research Output</h2>
-                <div class="fade-in">
+                <div>
                     <h3 class="subsection-title">Published Research</h3>
                     <div class="publication-item">
                         <div class="publication-title">Geographically weighted logistic regression model for identifying risk factors for malaria infection among under-5 children in Ghana</div>
@@ -1138,11 +1391,65 @@
                         <div class="publication-authors">Aidoo, E. N., Ackaah, W., Appiah, S. K., Appiah, E. K., Addae, J., & Alhassan, H. (2019)</div>
                         <div class="publication-journal">Accident Analysis & Prevention, 129, 225-229. <a href="https://doi.org/10.1016/j.aap.2019.05.022" target="_blank">https://doi.org/10.1016/j.aap.2019.05.022</a></div>
                     </div>
-
                     <div class="publication-item">
                         <div class="publication-title">Obesity and Overweight and Its Associated Factors Among Women with Infertility Undergoing Assisted Reproductive Technology (ART) Treatment in A Low Income Setting</div>
                         <div class="publication-authors">Amoah, C., Sefogah, P. E., Adageba, R. K., Appiah E. K.</div>
-                        <div class="publication-journal">Scientific Reports. Springer Nature, 15, 6163 (2025).<a href="https://doi.org/10.1038/s41598-024-82818-5" target="_blank"></div>
+                        <div class="publication-journal">Scientific Reports. Springer Nature, 15, 6163 (2025). <a href="https://doi.org/10.1038/s41598-024-82818-5" target="_blank">https://doi.org/10.1038/s41598-024-82818-5</a></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="cta-section">
+                <div class="cta-content">
+                    <h2 class="cta-title">Need Expert Statistical Support?</h2>
+                    <p class="cta-subtitle">Transform your data into actionable insights with professional statistical analysis, research consulting, and data-driven solutions tailored to your needs.</p>
+
+                    <div class="expertise-grid">
+                        <div class="expertise-item">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Statistical Analysis</h4>
+                            <p>Advanced statistical modeling, spatial analysis, and predictive analytics for health research and data science projects.</p>
+                        </div>
+                        <div class="expertise-item">
+                            <i class="fas fa-microscope"></i>
+                            <h4>Research Design</h4>
+                            <p>Comprehensive research methodology, experimental design, and data collection strategies for robust scientific studies.</p>
+                        </div>
+                        <div class="expertise-item">
+                            <i class="fas fa-baby"></i>
+                            <h4>Fertility Research</h4>
+                            <p>Specialized expertise in IVF/ICSI data analysis, ART outcome evaluation, and reproductive health statistics.</p>
+                        </div>
+                        <div class="expertise-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h4>Training & Workshops</h4>
+                            <p>Statistical software training (R, Python, SPSS, Stata), research methods workshops, and biostatistics instruction.</p>
+                        </div>
+                        <div class="expertise-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <h4>Spatial Statistics</h4>
+                            <p>Geographically weighted regression, disease mapping, and spatial epidemiology for public health applications.</p>
+                        </div>
+                        <div class="expertise-item">
+                            <i class="fas fa-file-alt"></i>
+                            <h4>Report Writing</h4>
+                            <p>Professional statistical reports, research papers, grant proposals, and data visualization for stakeholder presentations.</p>
+                        </div>
+                    </div>
+
+                    <div class="cta-buttons">
+                        <a href="mailto:ernest.appiah@ruma.hospital" class="cta-button cta-button-primary">
+                            <i class="fas fa-envelope"></i>
+                            Email Me
+                        </a>
+                        <a href="https://wa.me/233277630506" class="cta-button cta-button-secondary" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                            WhatsApp Chat
+                        </a>
+                        <a href="tel:+233547731077" class="cta-button cta-button-secondary">
+                            <i class="fas fa-phone"></i>
+                            Call Now
+                        </a>
                     </div>
                 </div>
             </section>
@@ -1206,13 +1513,13 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.section, .profile-card, .timeline-item, .skill-category, .publication-item').forEach(el => {
+        document.querySelectorAll('.section, .specialization-card, .timeline-item, .skill-category, .publication-item').forEach(el => {
             observer.observe(el);
         });
 
         // Update active navigation based on scroll position
         window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('.section');
+            const sections = document.querySelectorAll('.section, .cta-section');
             const navLinks = document.querySelectorAll('.nav-link');
             
             let current = '';
@@ -1230,6 +1537,101 @@
                     link.classList.add('active');
                 }
             });
+        });
+
+        // Wait for DOM to be fully loaded before creating charts
+        window.addEventListener('DOMContentLoaded', function() {
+            // Interactive Charts with vibrant colors
+            const ctx1 = document.getElementById('researchChart');
+            if (ctx1) {
+                new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Spatial Statistics', 'Fertility Research (ART/IVF)', 'Infectious Disease', 'Public Health', 'Biostatistics'],
+                        datasets: [{
+                            data: [25, 25, 20, 15, 15],
+                            backgroundColor: [
+                                'rgba(102, 126, 234, 0.9)',
+                                'rgba(240, 147, 251, 0.9)',
+                                'rgba(79, 172, 254, 0.9)',
+                                'rgba(67, 233, 123, 0.9)',
+                                'rgba(245, 158, 11, 0.9)'
+                            ],
+                            borderColor: [
+                                'rgba(102, 126, 234, 1)',
+                                'rgba(240, 147, 251, 1)',
+                                'rgba(79, 172, 254, 1)',
+                                'rgba(67, 233, 123, 1)',
+                                'rgba(245, 158, 11, 1)'
+                            ],
+                            borderWidth: 3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    font: {
+                                        size: 12,
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const ctx2 = document.getElementById('skillsChart');
+            if (ctx2) {
+                new Chart(ctx2, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Statistical Analysis', 'Programming', 'Teaching', 'Research', 'Communication', 'Data Visualization'],
+                        datasets: [{
+                            label: 'Expertise Level',
+                            data: [95, 90, 95, 92, 88, 85],
+                            backgroundColor: 'rgba(102, 126, 234, 0.3)',
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            borderWidth: 3,
+                            pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(102, 126, 234, 1)',
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    stepSize: 20,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(102, 126, 234, 0.2)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
         });
     </script>
 </body>
