@@ -975,202 +975,253 @@ canvas {
     margin-bottom: 0;
 }
 
-/* Booking Section */
-.booking-section {
-    padding: 6rem 0;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.booking-intro {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 3rem;
-    color: #9CA3AF;
-    font-size: 1.2rem;
-}
-
-.services-grid {
+/* ── Booking Grid ───────────────────────────────────────────── */
+.booking-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
+    margin-top: 2rem;
 }
 
-.service-card {
-    background: #1A1F3A;
+/* ── Booking Cards ──────────────────────────────────────────── */
+.booking-card {
+    background: white;
     padding: 2.5rem;
-    border-radius: 25px;
-    border: 1px solid rgba(139,92,246,.25);
+    border-radius: 20px;
+    border: 2px solid rgba(102, 126, 234, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
 }
 
-.service-icon {
+.booking-card.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.booking-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+}
+
+.booking-card:hover::before {
+    transform: scaleX(1);
+}
+
+.booking-card:hover {
+    transform: translateY(-12px);
+    border-color: #667eea;
+    box-shadow: 0 25px 50px rgba(102, 126, 234, 0.25);
+}
+
+/* ── Booking Icon ───────────────────────────────────────────── */
+.booking-icon {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, #8B5CF6, #EC4899);
+    background: linear-gradient(135deg, #667eea, #764ba2);
     border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.booking-card:hover .booking-icon {
+    transform: rotate(8deg) scale(1.1);
+}
+
+/* ── Card Text ──────────────────────────────────────────────── */
+.booking-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.8rem;
+}
+
+.booking-card p {
+    color: #64748b;
+    line-height: 1.7;
     margin-bottom: 1.2rem;
+    font-size: 0.95rem;
 }
 
-.service-card ul {
+/* ── Card List ──────────────────────────────────────────────── */
+.booking-card ul {
     list-style: none;
-    padding-left: 0;
+    padding: 0;
+    margin-bottom: 1.5rem;
 }
 
-.service-card li {
-    padding-left: 1.5rem;
+.booking-card li {
+    padding: 0.4rem 0 0.4rem 1.8rem;
     position: relative;
-    margin-bottom: .4rem;
+    color: #1e293b;
+    font-size: 0.95rem;
 }
 
-.service-card li::before {
-    content: "▸";
+.booking-card li::before {
+    content: '▸';
     position: absolute;
     left: 0;
-    color: #8B5CF6;
+    color: #667eea;
+    font-weight: bold;
 }
 
-.service-buttons {
-    margin-top: 1.5rem;
+/* ── Pricing Tag ────────────────────────────────────────────── */
+.booking-pricing {
+    text-align: center;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12));
+    border-radius: 10px;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #667eea;
+}
+
+/* ── Booking Buttons ────────────────────────────────────────── */
+.booking-buttons {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.8rem;
 }
 
-.service-btn {
-    padding: 1rem;
-    border-radius: 12px;
+.booking-btn {
+    padding: 0.9rem 1.2rem;
+    border-radius: 10px;
     font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    text-decoration: none;
     text-align: center;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: all 0.3s ease;
     border: none;
+    cursor: pointer;
 }
 
-.service-btn-primary {
-    background: linear-gradient(135deg, #8B5CF6, #EC4899);
-    color: #fff;
+.booking-btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
 }
 
-.service-btn-secondary {
+.booking-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    color: white;
+}
+
+.booking-btn-secondary {
     background: transparent;
-    border: 2px solid #8B5CF6;
-    color: #8B5CF6;
+    color: #667eea;
+    border: 2px solid #667eea;
 }
 
-/* Modal */
+.booking-btn-secondary:hover {
+    background: rgba(102, 126, 234, 0.08);
+    transform: translateY(-2px);
+}
+
+/* ── Calendly Modal ─────────────────────────────────────────── */
 .calendly-modal {
     display: none;
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.85);
-    z-index: 3000;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    animation: calFadeIn 0.3s ease;
+}
+
+@keyframes calFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 .calendly-modal-content {
-    background: #1A1F3A;
-    max-width: 900px;
-    margin: 4vh auto;
+    background: white;
+    margin: 3% auto;
     padding: 2rem;
-    border-radius: 25px;
+    border-radius: 20px;
+    width: 92%;
+    max-width: 860px;
+    position: relative;
+    animation: calSlideDown 0.4s ease;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    border: 2px solid rgba(102, 126, 234, 0.25);
 }
 
-.calendly-modal iframe {
-    width: 100%;
-    height: 700px;
-    border: none;
-    border-radius: 15px;
+@keyframes calSlideDown {
+    from { transform: translateY(-40px); opacity: 0; }
+    to   { transform: translateY(0);     opacity: 1; }
 }
 
 .calendly-close {
-    float: right;
-    font-size: 2rem;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: #94a3b8;
     cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
 }
 
-/* Responsive Design */
+.calendly-close:hover {
+    color: #667eea;
+    transform: rotate(90deg);
+}
+
+.calendly-modal h3 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1.5rem;
+}
+
+.calendly-modal iframe {
+    border-radius: 12px;
+    min-height: 680px;
+    width: 100%;
+    border: none;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .header-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 2rem;
-    }
-
-    .profile-image-wrapper {
-        display: flex;
-        justify-content: center;
-    }
-
-    .header-info h1 {
-        font-size: 2.5rem;
-    }
-
-    .header-info .titles {
-        font-size: 1.1rem;
-    }
-
-    .header-contact {
-        justify-content: center;
-    }
-
-    .section {
-        padding: 3rem 1.5rem;
-    }
-
-    .section-title {
-        font-size: 2rem;
-    }
-
-    .specializations-grid,
-    .skills-grid {
+    .booking-grid {
         grid-template-columns: 1fr;
     }
 
-    .charts-container {
-        grid-template-columns: 1fr;
+    .calendly-modal-content {
+        margin: 5% auto;
+        padding: 1.5rem;
     }
 
-    .timeline {
-        padding-left: 2rem;
-    }
-
-    .stats-dashboard {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .cta-title {
-        font-size: 2rem;
-    }
-
-    .cta-subtitle {
-        font-size: 1.1rem;
-    }
-
-    .expertise-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .cta-buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
-}
-
-@media (max-width: 480px) {
-    .title-badge {
-        font-size: 0.9rem;
-        padding: 0.3rem 0.8rem;
-    }
-
-    .contact-item {
-        font-size: 0.85rem;
-        padding: 0.5rem 1rem;
-    }
-
-    .stats-dashboard {
-        grid-template-columns: 1fr;
+    .calendly-modal iframe {
+        min-height: 500px;
     }
 }
     </style>
